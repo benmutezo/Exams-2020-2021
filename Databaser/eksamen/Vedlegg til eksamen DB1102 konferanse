@@ -1,0 +1,58 @@
+/*a*/
+SELECT * FROM deltaker ORDER BY etternavn ASC, fornavn ASC;
+
+/*B*/
+SELECT fornavn, etternavn FROM deltaker WHERE epost LIKE '%@ppbb.no';
+
+/*C*/
+SELECT dagnr AS Konferansedag, SUM(måltidpris) AS Måltidpris FROM måltid GROUP BY dagnr;
+
+
+/*D*/
+SELECT * FROM deltaker WHERE dnr NOT IN(SELECT dnr FROM forfatter);
+
+/*E*/
+SELECT fornavn, etternavn, COUNT(temanr) AS temaer FROM deltaker 
+LEFT JOIN deltakertema ON deltaker.DNR = deltakertema.DNR 
+GROUP BY deltaker.DNR 
+ORDER BY temaer DESC;
+
+/*F*/
+
+/*Legger inn verdiene*/
+INSERT INTO måltidbestilling(DNr,Måltidtype,Dagnr) VALUES (4,'Middag',1);
+INSERT INTO måltidbestilling(DNr,Måltidtype,Dagnr) VALUES (6,'Lunsj',2);
+INSERT INTO måltidbestilling(DNr,Måltidtype,Dagnr) VALUES (5,'Middag',2);
+INSERT INTO måltidbestilling(DNr,Måltidtype,Dagnr) VALUES (7,'Lunsj',1);
+INSERT INTO måltidbestilling(DNr,Måltidtype,Dagnr) VALUES (3,'Middag',2);
+
+/*Sjekker at alt er lagt inn*/
+SELECT * FROM måltidbestilling;
+
+/*G*/
+UPDATE deltaker SET EPost = 'svetlana@iversen.no' WHERE Fornavn = 'Svetlana';
+SELECT EPost FROM deltaker WHERE fornavn = 'Svetlana';
+
+
+/*H*/
+SELECT etternavn, COUNT(Etternavn) AS forekomst FROM deltaker GROUP BY etternavn HAVING forekomst > 1; 
+
+
+/*I*/
+CREATE TABLE transport (
+	Dnr int(11),
+    
+
+); 
+
+
+/*J*/
+SELECT p.RomNr, p.starttid AS tidspunkt, p.tittel, d.fornavn, d.etternavn, t.temanavn, r.antplasser 
+FROM presentasjon p
+LEFT JOIN deltaker d ON p.DNr = d.DNr 
+LEFT JOIN tema t ON p.TemaNr = t.TemaNr 
+LEFT JOIN rom r ON p.RomNr = r.RomNr
+ORDER BY r.Romnr ASC, tidspunkt ASC;
+
+
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Like or Unlike</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+  <section>
+    <h1 id="title">Lik eller unlike profil</h1>
+  </section>
+
+  <nav class="nav">
+    <ul>
+      <li><a href="alle-profiler.html">Alle profiler</a></li>
+      <li><a href="profil-forslag.html">Profil forslag</a></li>
+      <li><a href="like-and-match.html">Lik og match!</a></li>
+    </ul>
+  </nav>
+
+  
+  <div class="main-container">
+    <section id="status-bar" class="info-sec">
+      <p>Fyll ut din profil</p>
+      <p id="client-label">Er du mann eller kvinne?</p>
+      <section id="radio-buttons">
+        <input type="radio" id="man" name="gender" value="man" />
+        <label for="man">Mann</label><br />
+        <input type="radio" id="woman" name="gender" value="woman" />
+        <label for="woman">Kvinne</label><br />
+        <input type="radio" class="hide" name="gender" value="both" />
+        <label class="hide" for="both">Begge</label>
+      </section>
+      <br />
+      <br />
+
+      <section id="client-form">
+        <label>Ditt navn:</label>
+        <input id="client-name" type="text" />
+        <br />
+        <label>Din alder? </label>
+        <input id="client-age" type="text" />
+        <br />
+      </section>
+      <br>
+ <section id="proceed-btn" class="buttons">
+  <a  >Fortsett</a>
+ </section>
+    </section>
+    <section class="show hide">
+      <section id="profile"></section>
+      <setion class="buttons">
+        <a id="unlike">Dislike</a>
+        <a id="like">Like</a>
+      </setion>
+    </section>
+    <section class="hide">
+    <section id="client-status">
+      
+    </section>
+      <section id="hidden-profile">
+
+      </section>
+    <section id="hidden-btn">
+      <a id="close">lukk</a>
+    </section>
+    </section>
+  </div>
+  <script src="../javascript/likeAndMatch.js"></script>
+</body>
+
+</html>

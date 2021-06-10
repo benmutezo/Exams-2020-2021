@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Oppgave 3. Matlageret (25%)</title>
+</head>
+
+<body>
+
+	<h3>Matlageret</h3>
+	<label>Produktnavn</label>
+	<input id="product-name" type="text"><br>
+	<label>Antall på lager</label>
+	<input id="product-amount" type="text"><br>
+	<input id="add-to-storage-btn" type="button" value="Legg til produkt i array">
+	<input id="show-storage-btn" type="button" value="Vis produkter du har lagt til">
+	<div id="ouput-div">
+
+	</div>
+
+	<script>
+
+		/* Besvarelse legges til før og/eller etter funksjonen */
+
+
+		var slotCounter = emptySlot();
+		var storageArray = [];
+
+		var addToStorageBtn = document.getElementById("add-to-storage-btn");
+		var showStorageBtn = document.getElementById("show-storage-btn");
+
+
+
+
+		/*funskjonen tar 2 objecter i parameteren, deretter er det en if else som skjekker om objekt a sitt amount egensakap er mindre enn object b sitt amount egenskap.
+		Vis dette resulterer til true, så retunerer funksjonen tallet 1 til den som kaller på funksjonen og funksjonen stopper, siden kode som kommer etter nøkkelordet return ikke kjøres. 
+		Vis resultatet er false, så kjører koden et hakk ned til den andre if else som skjekker det omvendte altså, om objekt a sitt amount egensakap er større enn object b sitt amount egenskap.
+		Vis det stemmer så retuneres tallet -1 og funksjonen stopper. Dersom dette også fører til false, altså at a og b sin amount er likt så retuneres tallet 0.
+		 */
+		function sortByAmount(a, b) {
+			if (a.amount < b.amount) {
+				return 1;
+			}
+			if (a.amount > b.amount) {
+				return -1;
+			}
+			return 0;
+		}
+
+		function addToStorage() {
+			var name = document.getElementById("product-name");
+			var amount = document.getElementById("product-amount");
+			var newProduct = newProductObj(name.value, amount.value);
+			var freeSlot = slotCounter();
+
+			/*COULD ALSO JUST HAVE USED THE PUSH METHOD FOR ARRAYS! ;) */
+			storageArray[freeSlot] = newProduct;
+
+			name.value = "";
+			amount.value = "";
+		}
+
+
+		function showStorage() {
+			var amountOfProducts = getArrayLength();
+
+			for (var i = 0; i < amountOfProducts; i++) {
+
+				//LOOP THROUGH NEXT PRODUCT
+				for (var j = i + 1; j < amountOfProducts; j++) {
+
+					var firstItem = storageArray[i];
+					var secondItem = storageArray[j];
+					var position = sortByAmount(firstItem, secondItem);
+
+					// IF position returned is -1, the items switch position	
+					if (position < 0) {
+						var item = storageArray[i];
+						var item2 = storageArray[j];
+						storageArray[i] = item2;
+						storageArray[j] = item;
+					}
+				}
+			}
+
+			printItems(storageArray);
+		}
+
+
+
+		// function to create new objects
+		function newProductObj(name, amount) {
+			return {
+				name: name,
+				amount: parseInt(amount)
+			}
+		}
+
+
+		/*CLOSURE TO KEEP TRACK OF THE EMPTY SLOTS IN THE PRODUCT ARRAY.*/
+		function emptySlot() {
+			var counter = 0;
+			return function () {
+				return counter++;
+			}
+		}
+
+
+
+		function printItems(array) {
+			var output = document.getElementById("ouput-div");
+			var amountOfProducts = getArrayLength();
+
+
+
+
+			for (var i = 0; i < amountOfProducts; i++) {
+				var item = array[i];
+
+				// DICIDED TO USE DECONSRUCTORING HERE FOR SYNTETIC SUGAR AND TO ADD SOME VARIATION :)
+				var { name, amount } = item;
+				output.innerHTML += `
+					<h1>${name}</h1>
+					<p>price: ${amount}</p>
+				`;
+
+
+			}
+		}
+
+
+		function getArrayLength() {
+			return storageArray.length;
+		}
+
+		addToStorageBtn.onclick = addToStorage;
+		showStorageBtn.onclick = showStorage;
+
+
+
+
+
+
+
+	</script>
+</body>
+
+</html>

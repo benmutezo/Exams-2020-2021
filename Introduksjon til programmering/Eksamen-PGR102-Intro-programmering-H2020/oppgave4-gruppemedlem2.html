@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Butikk-shoppingmanager</title>
+	<style>
+		.item {
+			padding-bottom: 20px;
+			display: block;
+		}
+	</style>
+	<div>
+
+		<h1>Butikk-shoppingmanager</h1>
+		<p id=greet-user-p></p>
+
+		<div id="item-output">
+
+		</div>
+
+
+		<div>
+			<label for="name">Navn på vare: </label>
+			<input id="item-to-add" type="text">
+
+			<label class="item" for="name">kategori på vare: </label>
+
+			<input class="category" type="radio" id="food" name="category" value=" food">
+			<label for="food">mat</label><br>
+			<input class="category" type="radio" id="clothes" name="category" value=" clothes">
+			<label for="clothes">klær</label><br>
+			<input class="category" type="radio" id="other" name="category" value=" other">
+			<label for="other">annet</label>
+			<br>
+			<input id="add-btn" type="button" value="Legg til">
+
+		</div>
+
+
+
+
+
+	</div>
+</head>
+
+<body>
+
+	<script>
+
+		/*Unfortunatley i did not have time to use the images folder, i got to caught up trying to refactor the code :(*/
+		var categories = ["food", "clothes", "other"];
+
+
+
+		var addBtn = document.getElementById("add-btn");
+		var productID = generateNumber();
+		var arrayIndex = generateNumber();
+
+		/*used a self  invoking function*/
+		(function greetUser() {
+			var greetUserP = document.getElementById("greet-user-p");
+			var greet = getGreet();
+			greetUserP.innerHTML = `${greet}, kjære bruker!`;
+
+		})();
+
+
+		function getGreet() {
+			var dt = new Date();
+			var tm = dt.getHours();
+			var greeting =
+				tm = 0 && tm < 6 ? "God natt" :
+					tm >= 6 && tm < 9 ? "God morgen" :
+						tm >= 9 && tm < 12 ? "God formiddag" :
+							tm >= 12 && tm < 18 ? "God ettermiddag" :
+								"God kveld";
+
+			return greeting;
+		}
+
+
+
+		function add() {
+			var itemName = document.getElementById("item-to-add").value;
+			var category = getCategory();
+			var newItem = newItemObj(itemName, category);
+
+
+			listItems(newItem);
+
+
+
+
+		}
+
+		function addDelete() {
+			var buttons = document.getElementsByClassName("buttons");
+
+			for (var i = 0; i < buttons.length; i++) {
+				var button = buttons[i];
+				button.onclick = deleteItem;
+			}
+
+
+
+		}
+
+		function listItems(item) {
+
+			var output = document.getElementById("item-output");
+			var { name, category, itemID } = item;
+
+			if (!exist(item)) {
+				output.innerHTML += `
+					<div  class="items">
+						<h1>${name}</h1>	
+						<p  id="${itemID}"></p>
+						
+						<button class="buttons" >Slett</button>
+					</div>
+				
+				`;
+				console.log("there");
+			}
+
+			addDelete();
+		}
+
+		var arrayIndex = generateNumber();
+
+		var duplicateProducts = [];
+		function exist(item) {
+			var allItems = document.getElementsByClassName("items");
+			var sumProd = generateNumber();
+			var { name, category, itemID } = item;
+
+			for (var i = 0; i < allItems.length; i++) {
+				var item = allItems[i];
+				var itemName = item.children[0].innerHTML;
+				var foundItemID = item.children[1].id;
+
+				if (name === itemName) {
+					var itemToIncrease = document.getElementById(foundItemID);
+					var newIndex = arrayIndex();
+					duplicateProducts[newIndex] = name;
+
+					for (var i = 0; i < duplicateProducts.length; i++) {
+						var prodName = duplicateProducts[i];
+
+						if (prodName === name) {
+							sumProd();
+						}
+					}
+					var totalSum = sumProd() + 1
+					itemToIncrease.innerHTML = `${totalSum}`;
+					return true;
+				}
+
+			}
+
+			return false;
+		}
+
+
+		function deleteItem() {
+			this.parentNode.parentNode.removeChild(this.parentNode);
+		}
+
+
+
+
+
+		function getCategory() {
+			var radioBtns = document.getElementsByClassName("category");
+
+			for (var i = 0; i < radioBtns.length; i++) {
+
+				var btn = radioBtns[i];
+				if (btn.checked) {
+					return btn.value;
+
+				}
+			}
+		}
+
+
+
+		function newItemObj(name, category, itemImg) {
+			var newID = productID()
+
+			return {
+				name: name,
+				category: category,
+				itemID: newID,
+				itemImg: itemImg
+			}
+
+
+		}
+
+
+		function generateNumber() {
+			var number = 0;
+
+			return function () {
+				return number++;
+			}
+		}
+
+
+		addBtn.onclick = add;
+
+
+
+	</script>
+
+</body>
+
+</html>
